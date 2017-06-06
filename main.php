@@ -1,10 +1,13 @@
 <?php
-	session_start();
+
 	require_once "klasa_wesele.php";
+	print_r($_SESSION['konto']);
 	
-	$konto=$_SESSION['konto'];
-	print_r($konto);
-	echo "Wesele ".$konto->pokaz("mlody")." i ".$konto->pokaz("mloda")." .";
-	echo "Data wesela: ".$konto->pokaz("data");
+	//echo "Wesele ";
+	//$konto->pokaz("mlody");
+	//echo " i ";
+	//$konto->pokaz("mloda");
+	//echo ". Data wesela: ";
+	//$konto->pokaz("data");
 	
 ?>

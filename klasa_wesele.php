@@ -88,13 +88,13 @@ session_start();
 				$new=$pdo->prepare("INSERT INTO wesela VALUES (NULL, '$mlody', '$mloda', '$data','$login','$hash')");
 				$sprawdz=$new->execute();
 				if($sprawdz==true){
-					$log=$pdo->prepare('SELECT * FROM wesela WHERE login=:login ');
+					$log=$pdo->prepare('SELECT login FROM wesela WHERE login=:login ');
 					$log->bindParam(':login', $login, PDO::PARAM_STR,20);
 					$log->execute();
 					$wynik=$log->rowCount();
 					if($wynik>0){
 						$dane=$log->fetch();
-						$_SESSION['konto']=new Wesele($dane['1'],$dane['2'],$dane['3'],$dane['4'],$dane['5']);
+						$_SESSION['konto']=$dane['login'];
 						header("Location:main.php");
 					}
 					
@@ -123,14 +123,14 @@ session_start();
 				try{
 				$pdo = new PDO('mysql:host='.$host.';dbname='.$db_name, $db_user, $db_password );
 				$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				$log=$pdo->prepare('SELECT * FROM wesela WHERE login=:login ');
+				$log=$pdo->prepare('SELECT login,haslo FROM wesela WHERE login=:login ');
 				$log->bindParam(':login', $login, PDO::PARAM_STR,20);
 				$log->execute();
 				$wynik=$log->rowCount();
 					if($wynik>0){
 						$dane=$log->fetch();
 						if(password_verify($haslo, $dane['haslo'])){
-							$_SESSION['konto']=new Wesele($dane['1'],$dane['2'],$dane['3'],$dane['4'],$dane['5']);
+							$_SESSION['konto']=$dane['login'];
 							header("Location:main.php");
 						}
 						else{
