@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "db_class.php";
 	class Wesele{
 		private $mlody;
 		private $mloda;
@@ -73,64 +74,36 @@ session_start();
 			$haslo=$this->haslo;
 			$hash=password_hash($haslo,PASSWORD_DEFAULT);
 			
-			require_once "connect.php";
-			try{
-				$pdo=$pdo = new PDO('mysql:host='.$host.';dbname='.$db_name, $db_user, $db_password );
-				$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				//sprawdzenie czy nie istnieje juz login
-				$check=$pdo->prepare("SELECT id FROM wesela WHERE login='$login'");
-				$check->execute();
-				$wynik=$check->rowCount(); //zwraca ilosc wierszy 
+			$database=new Database("localhost","root","","wesele");
+			$wynik=$database->zapytanie("SELECT id FROM wesela WHERE login='$login'","rows");
+			
 				if($wynik>0){
 					echo "Istnieje już nick w bazie danych";
 				}
 				else{
-				$new=$pdo->prepare("INSERT INTO wesela VALUES (NULL, '$mlody', '$mloda', '$data','$login','$hash')");
-				$sprawdz=$new->execute();
-				if($sprawdz==true){
-					$log=$pdo->prepare('SELECT login FROM wesela WHERE login=:login ');
-					$log->bindParam(':login', $login, PDO::PARAM_STR,20);
-					$log->execute();
-					$wynik=$log->rowCount();
-					if($wynik>0){
-						$dane=$log->fetch();
-						$_SESSION['konto']=$dane['login'];
+				$insert=$database->zapytanie("INSERT INTO wesela VALUES (NULL, '$mlody', '$mloda', '$data','$login','$hash')","");
+				
+					if($insert==true){
+						$log=$database->zapytanie("SELECT login FROM wesela WHERE login='$login'","array");
+						$_SESSION['konto']=$log['login'];
 						header("Location:main.php");
 					}
-					
-				else{
-					throw new PDOException($new->error);
 				}
-				}
-				else{
-					throw new PDOException($new->error);
-				}
-			
-			}
-			}
-		catch (PDOException $e) {
-			echo '<span style="color:red">Błąd serwera! Prosimy spróbować później!</span>';
-			echo "</br> Informacja developerska:".$e;
-			}
-		}
+		}		
+		
 		//statyczna metoda odpowiadajaca za logowanie i stworzenie konkretnego obiektu wybranego z DB
 		public static function loguj(){
 			$login=$_POST['utw_login'];
 			$haslo=$_POST['utw_haslo'];
 			$login=htmlentities($login,ENT_QUOTES,"UTF-8");
 			$haslo=htmlentities($haslo,ENT_QUOTES,"UTF-8");
-			require_once "connect.php";
-				try{
-				$pdo = new PDO('mysql:host='.$host.';dbname='.$db_name, $db_user, $db_password );
-				$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				$log=$pdo->prepare('SELECT login,haslo FROM wesela WHERE login=:login ');
-				$log->bindParam(':login', $login, PDO::PARAM_STR,20);
-				$log->execute();
-				$wynik=$log->rowCount();
+			
+				$database=new Database("localhost","root","","wesele");
+				$wynik=$database->zapytanie("SELECT login,haslo FROM wesela WHERE login='$login'","rows");
+				$array=$database->zapytanie("SELECT login,haslo FROM wesela WHERE login='$login'","array");
 					if($wynik>0){
-						$dane=$log->fetch();
-						if(password_verify($haslo, $dane['haslo'])){
-							$_SESSION['konto']=$dane['login'];
+						if(password_verify($haslo, $array['haslo'])){
+							$_SESSION['konto']=$array['login'];
 							header("Location:main.php");
 						}
 						else{
@@ -142,11 +115,8 @@ session_start();
 						echo "Błędny login";
 					}
 				}
-				catch (PDOException $e) {
-					echo '<span style="color:red">Błąd serwera! Prosimy spróbować później!</span>';
-					echo "</br> Informacja developerska:".$e;
-				}				
-		}
+							
+		
 		
 		public function pokaz($param){
 			switch($param){

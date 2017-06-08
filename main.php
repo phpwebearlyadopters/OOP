@@ -1,13 +1,11 @@
 <?php
-
-	require_once "klasa_wesele.php";
-	print_r($_SESSION['konto']);
+	require_once "wesele_fabryka.php";
 	
-	//echo "Wesele ";
-	//$konto->pokaz("mlody");
-	//echo " i ";
-	//$konto->pokaz("mloda");
-	//echo ". Data wesela: ";
-	//$konto->pokaz("data");
+	$konto=$_SESSION['konto'];
+	$database=new Database("localhost","root","","wesele");
+	$wesele_fabryka=new Wesele_fabryka($database);
+	$wesele=$wesele_fabryka->stworzWesele($konto);
+	$wesele->pokaz("mlody");
+	
 	
 ?>

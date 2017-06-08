@@ -37,6 +37,7 @@
 				return $ile;
 				}
 				else{
+					return $pytaj;
 				}
 				
 
