@@ -33,16 +33,21 @@
 <h1>Dodaj gościa</h1>
 <form method="post" action="skrypt.php">
 		Imię i Nazwisko: <input type="text" name="name"/></br></br>
-		Osoba towarzysząca: <input type="radio" name="partner" value="yes"/>TAK	
-							<input type="radio" name="partner" value="no"/>NIE </br></br>
-		Dzieci:	<input type="radio" name="children" value="yes"/>TAK	
-				<input type="radio" name="children" value="no"/>NIE </br></br>
+		Osoba towarzysząca: <input type="radio" name="partner" value="TAK"/>TAK	
+							<input type="radio" name="partner" value="NIE"/>NIE </br></br>
+		Dzieci:	<input type="radio" name="children" value="TAK"/>TAK	
+				<input type="radio" name="children" value="NIE"/>NIE </br></br>
 		Liczba dzieci: <input type="text" name="num_child" placeholder="0"/></br></br>
-		Od kogo: <input type="radio" name="from_who" value="he"/><?php $wesele->pokaz("mlody"); ?>	
-				 <input type="radio" name="from_who" value="she"/><?php $wesele->pokaz("mloda"); ?>
-				 <input type="radio" name="from_who" value="both"/>Wspólny </br></br>
+		Od kogo: <input type="radio" name="from_who" value="<?php $wesele->pokaz("mlody"); ?>"/><?php $wesele->pokaz("mlody"); ?>	
+				 <input type="radio" name="from_who" value="<?php $wesele->pokaz("mloda"); ?>"/><?php $wesele->pokaz("mloda"); ?>
+				 <input type="radio" name="from_who" value="Wspólny"/>Wspólny </br></br>
 				 <input type="submit" value="Dodaj"/>
 </form>
+
+<h1>Lista Gości</h1>
+<?php
+print_r ($wesele);
+?>
 
 
 </body>

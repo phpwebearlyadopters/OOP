@@ -9,8 +9,8 @@
 			$this->base=$base;
 		}
 		
-		public function stworzWesele($login){
-			$record=$this->base->zapytanie("SELECT * FROM wesela WHERE login='$login'","array");
+		public function stworzWesele($id){
+			$record=$this->base->zapytanie("SELECT * FROM wesela WHERE id='$id'","array");
 			$wesele=new Wesele($record['mlody'],$record['mloda'],$record['data'],$record['login'],$record['haslo']);
 			return $wesele;
 		}

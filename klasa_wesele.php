@@ -84,9 +84,10 @@ require_once "db_class.php";
 				$insert=$database->zapytanie("INSERT INTO wesela VALUES (NULL, '$mlody', '$mloda', '$data','$login','$hash')","");
 				
 					if($insert==true){
-						$log=$database->zapytanie("SELECT login FROM wesela WHERE login='$login'","array");
-						$_SESSION['konto']=$log['login'];
+						$log=$database->zapytanie("SELECT id FROM wesela WHERE login='$login'","array");
+						$_SESSION['konto']=$log['id'];
 						header("Location:main.php");
+						
 					}
 				}
 		}		
@@ -99,11 +100,11 @@ require_once "db_class.php";
 			$haslo=htmlentities($haslo,ENT_QUOTES,"UTF-8");
 			
 				$database=new Database("localhost","root","","wesele");
-				$wynik=$database->zapytanie("SELECT login,haslo FROM wesela WHERE login='$login'","rows");
-				$array=$database->zapytanie("SELECT login,haslo FROM wesela WHERE login='$login'","array");
+				$wynik=$database->zapytanie("SELECT id,login,haslo FROM wesela WHERE login='$login'","rows");
+				$array=$database->zapytanie("SELECT id,login,haslo FROM wesela WHERE login='$login'","array");
 					if($wynik>0){
 						if(password_verify($haslo, $array['haslo'])){
-							$_SESSION['konto']=$array['login'];
+							$_SESSION['konto']=$array['id'];
 							header("Location:main.php");
 						}
 						else{
