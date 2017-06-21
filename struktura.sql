@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 10 Cze 2017, 18:24
+-- Czas generowania: 21 Cze 2017, 12:50
 -- Wersja serwera: 10.1.21-MariaDB
 -- Wersja PHP: 7.1.1
 
@@ -35,6 +35,16 @@ CREATE TABLE `ludzie` (
   `odkogo` text COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci ROW_FORMAT=COMPACT;
 
+--
+-- Zrzut danych tabeli `ludzie`
+--
+
+INSERT INTO `ludzie` (`id`, `imie`, `partner`, `dzieci`, `iledzieci`, `odkogo`) VALUES
+(12, 'Ewelina KaÅºmierak', 'NIE', 'NIE', 0, 'WspÃ³lny'),
+(13, 'Marcin Banach', 'NIE', 'NIE', 0, 'WspÃ³lny'),
+(14, 'Maciej Romaniuk', 'TAK', 'NIE', 0, 'WspÃ³lny'),
+(15, 'Åukasz Szewczyk', 'TAK', 'NIE', 0, 'WspÃ³lny');
+
 -- --------------------------------------------------------
 
 --
@@ -55,7 +65,7 @@ CREATE TABLE `wesela` (
 --
 
 INSERT INTO `wesela` (`id`, `mlody`, `mloda`, `data`, `login`, `haslo`) VALUES
-(1, 'Mateusz', 'Kasia', '2018-06-16', 'sienio', '$2y$10$3xfEVhkkUoW5UhLOH/XFAePd4OLx0ZE8gd7.7yoNc3xKXH5Xf2hs.');
+(4, 'Mateusz', 'Katarzyna', '2018-06-16', 'sienio', '$2y$10$XARNbTA/9xi6kMkQuMQzpewwWXrJlGrlwS2TdojVOtfoRNC2igr6W');
 
 -- --------------------------------------------------------
 
@@ -68,6 +78,16 @@ CREATE TABLE `wesele_goscie` (
   `id_wesele` int(11) NOT NULL,
   `id_ludzie` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+--
+-- Zrzut danych tabeli `wesele_goscie`
+--
+
+INSERT INTO `wesele_goscie` (`id`, `id_wesele`, `id_ludzie`) VALUES
+(10, 4, 12),
+(11, 4, 13),
+(12, 4, 14),
+(13, 4, 15);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -101,17 +121,17 @@ ALTER TABLE `wesele_goscie`
 -- AUTO_INCREMENT dla tabeli `ludzie`
 --
 ALTER TABLE `ludzie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT dla tabeli `wesela`
 --
 ALTER TABLE `wesela`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT dla tabeli `wesele_goscie`
 --
 ALTER TABLE `wesele_goscie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- Ograniczenia dla zrzutów tabel
 --

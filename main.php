@@ -47,6 +47,21 @@
 <h1>Lista Gości</h1>
 <?php
 print_r ($wesele);
+echo "</br>";
+$list=$database->zapytanie("SELECT L.* FROM wesela AS W,ludzie as L,wesele_goscie AS WG WHERE WG.id_wesele=W.id AND WG.id_ludzie=L.id AND W.id='$konto'","")->fetchAll(PDO::FETCH_ASSOC);
+$ile=$database->zapytanie("SELECT L.* FROM wesela AS W,ludzie as L,wesele_goscie AS WG WHERE WG.id_wesele=W.id AND WG.id_ludzie=L.id AND W.id='$konto'","rows");
+
+for($i=0 ; $i < $ile ; $i++){
+	foreach ($list[$i] as $gosc){
+	print_r ($gosc);
+	echo " ";
+	
+}
+echo "</br>";
+}
+
+
+
 ?>
 
 
