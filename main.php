@@ -13,6 +13,7 @@
 
 <?php
 	require_once "wesele_fabryka.php";
+	require_once "show_guest.php";
 	
 	$konto=$_SESSION['konto'];
 	$database=new Database("localhost","root","","wesele");
@@ -25,6 +26,8 @@
 	$wesele->pokaz("mloda");
 	echo". Data: ";
 	$wesele->pokaz("data");
+	
+
 	
 	
 	
@@ -45,20 +48,56 @@
 </form>
 
 <h1>Lista Gości</h1>
-<?php
-print_r ($wesele);
-echo "</br>";
-$list=$database->zapytanie("SELECT L.* FROM wesela AS W,ludzie as L,wesele_goscie AS WG WHERE WG.id_wesele=W.id AND WG.id_ludzie=L.id AND W.id='$konto'","")->fetchAll(PDO::FETCH_ASSOC);
-$ile=$database->zapytanie("SELECT L.* FROM wesela AS W,ludzie as L,wesele_goscie AS WG WHERE WG.id_wesele=W.id AND WG.id_ludzie=L.id AND W.id='$konto'","rows");
 
-for($i=0 ; $i < $ile ; $i++){
-	foreach ($list[$i] as $gosc){
-	print_r ($gosc);
-	echo " ";
+<form method="post" action="">
+Partner: 
+<select name="partner">
+  <option value="dow">Dowolnie</option>
+  <option value="tak">Z partnerem</option>
+  <option value="nie">Bez partnera</option>
+</select>
+Dzieci: 
+<select name="dzieci">
+  <option value="dow">Dowolnie</option>
+  <option value="nie">Bez dzieci</option>
+  <option value="tak">Z dziećmi</option>
+  </select>
+ Pokaż gości:
+ <select name="odkogo">
+  <option value="dow">Wszyscy</option>
+  <option value="on"><?php $wesele->pokaz("mlody"); ?>	</option>
+  <option value="ona"><?php $wesele->pokaz("mloda"); ?></option>
+</select>
+Sortuj:
+<select name="sort">
+  <option value="dow">Domyślnie</option>
+  <option value="imie">Imionami</option>
+  <option value="kogo">Od kogo</option>
+</select>
+</br>
+</br>
+<input type="submit" value="Filtruj"/>
+
+</form>
+</br>
+
+<?php
+
+$lista=new PokazGoscia($database);
+$partner=$lista->filtrPartner($_POST['partner']);
+$goscie=$lista->pokazListe($konto,$partner);
+
+
+
+
+
+
+
 	
-}
-echo "</br>";
-}
+
+
+
+
 
 
 
